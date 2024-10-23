@@ -17,7 +17,7 @@ function Header() {
         </ul>
       </nav>
       <div className="icons">
-        <i className="cart-icon">🛒</i>  {/* Simula un ícono de carrito */}
+      <i className="fa-solid fa-cart-shopping" style={{ fontSize: '24px', color: 'black' }}></i>{/* Simula un ícono de carrito */}
         <button className="contact-btn">Contacto</button>
       </div>
     </header>

@@ -1,0 +1,19 @@
+/* src/components/ProductList.css */
+.product-list {
+    padding: 20px;
+  }
+  
+  .product-cards {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .product-card {
+    text-align: center;
+  }
+  
+  .product-card img {
+    width: 100px;
+    height: 100px;
+  }
+  

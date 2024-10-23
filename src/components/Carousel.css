@@ -1,0 +1,14 @@
+/* src/components/Carousel.css */
+.carousel {
+    text-align: center;
+  }
+  
+  .carousel-image {
+    width: 850px;
+  }
+  
+  .carousel-text h2 {
+    color: #ffeb3b;
+    font-size: 2rem;
+  }
+  

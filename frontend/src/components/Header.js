@@ -1,6 +1,6 @@
 // src/components/Header.js
 import React from 'react';
-import './Header.css';  // Archivo CSS para estilos específicos del header
+import '../styles/components/Header.css';  // Archivo CSS para estilos específicos del header
 
 function Header() {
   return (

@@ -29,13 +29,25 @@
   padding: 15px 20px;
 }
 
+/* Estilos para la sección de iconos */
 .icons {
-  margin-right: 200px;
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Espacio entre los elementos */
 }
 
-.cart-icon {
-    margin-right: 15px; /* Espacio entre el ícono del carrito y el botón de contacto */
-  }
+/* Estilos para el ícono de carrito */
+.icons .fa-shopping-cart {
+  font-size: 24px;
+  color: black;
+  cursor: pointer; /* Cambia el cursor cuando pasas sobre el ícono */
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.icons .fa-shopping-cart:hover {
+  transform: scale(1.1); /* Aumenta el tamaño ligeramente al pasar el cursor */
+  color: #ff6347; /* Cambia el color al pasar el cursor (tomato) */
+}
 
 .contact-btn {
   background-color: #ffeb3b;

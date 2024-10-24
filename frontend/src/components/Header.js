@@ -1,6 +1,8 @@
 // src/components/Header.js
 import React from 'react';
-import './Header.css';  // Archivo CSS para estilos específicos del header
+import '../styles/components/Header.css';  // Archivo CSS para estilos específicos del header
+import { Link } from 'react-router-dom'; // Importamos Link para poder navegar entre rutas
+
 
 function Header() {
   return (
@@ -17,7 +19,9 @@ function Header() {
         </ul>
       </nav>
       <div className="icons">
-        <i className="cart-icon">🛒</i>  {/* Simula un ícono de carrito */}
+        <Link>
+          <i className="fas fa-shopping-cart" style={{ fontSize: '24px', color: 'black' }}></i>{/* Simula un ícono de carrito */}
+        </Link>
         <button className="contact-btn">Contacto</button>
       </div>
     </header>

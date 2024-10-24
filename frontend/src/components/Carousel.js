@@ -1,6 +1,6 @@
 // src/components/Carousel.js
 import React from 'react';
-import './Carousel.css';  // Estilos del carrusel
+import '../styles/components/Carousel.css';  // Estilos del carrusel
 import fondoDulce from './img/Fondo Dulce.png';
 
 function Carousel() {

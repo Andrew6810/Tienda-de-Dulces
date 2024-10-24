@@ -1,6 +1,6 @@
 // src/components/ProductList.js
 import React from 'react';
-import './ProductList.css';  // Estilos de la lista de productos
+import '../styles/components/ProductList.css';  // Estilos de la lista de productos
 
 const products = [
   { name: "Fruticas", imgSrc: "ruta-a-imagen-1" },

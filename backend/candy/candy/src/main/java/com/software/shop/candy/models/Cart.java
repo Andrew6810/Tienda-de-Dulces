@@ -26,11 +26,21 @@ public class Cart {
     )
     private Set<Product> products;
 
+    private Boolean status;
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

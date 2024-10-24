@@ -13,7 +13,15 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    public Product getProductById(Integer id) {
+        return productRepository.findById(id).orElse(null);
+    }
+
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    public Product getBookByTitle(String title) {
+        return productRepository.findByTitle(title);
     }
 }

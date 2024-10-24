@@ -21,7 +21,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product getBookByTitle(String title) {
-        return productRepository.findByTitle(title);
+    public Product getProductByName(String name) {
+        return productRepository.findByName(name);
     }
 }

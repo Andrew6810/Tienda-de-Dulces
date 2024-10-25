@@ -1,5 +1,5 @@
 .cart-page {
-  margin-top: 80px; /* Ajusta el margen según la altura del Header */
+  margin-top: 80px;
   padding: 20px;
   max-width: 800px;
   margin-left: auto;
@@ -20,17 +20,40 @@ h1 {
 .cart-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
 }
 
 .item-name {
+  flex: 2; /* Da más espacio al nombre del producto */
   font-weight: bold;
 }
 
-.item-quantity,
+.item-quantity {
+  flex: 1; /* Fija el espacio para la cantidad y botones */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-quantity button {
+  background-color: #ddd;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.item-quantity span {
+  font-size: 1.1em;
+  padding: 0 5px;
+}
+
 .item-price {
+  flex: 1; /* Fija el espacio para el precio */
   color: #555;
+  text-align: right;
 }
 
 .cart-total {

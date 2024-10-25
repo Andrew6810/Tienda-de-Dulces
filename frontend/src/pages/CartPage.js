@@ -3,7 +3,7 @@ import "../styles/components/CartPage.css";
 
 function CartPage() {
   // Recupera los datos del carrito de localStorage si existen
-  const initialCartItems = JSON.parse(localStorage.getItem("cartItems")) || [
+  const initialCartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [
     { id: 1, name: "Chocolate", quantity: 2, price: 5.99 },
     { id: 2, name: "Gomitas de Fruta", quantity: 1, price: 3.49 },
     { id: 3, name: "Caramelo de Menta", quantity: 4, price: 2.99 },
@@ -13,9 +13,10 @@ function CartPage() {
 
   // Guardar en localStorage cada vez que cambia el estado del carrito
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
+  //Incrementar la cantidad de producto que el usuario desea comprar
   const increaseQuantity = (id) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
@@ -24,6 +25,7 @@ function CartPage() {
     );
   };
 
+  //Decrementar la cantidad de producto que el usuario desea comprar
   const decreaseQuantity = (id) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>

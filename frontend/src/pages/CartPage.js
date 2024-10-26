@@ -2,30 +2,52 @@ import React, { useState, useEffect } from "react";
 import "../styles/components/CartPage.css";
 
 function CartPage() {
-  // Recupera los datos del carrito de localStorage si existen
   const initialCartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [
-    { id: 1, name: "Chocolate", quantity: 2, price: 5.99 },
-    { id: 2, name: "Gomitas de Fruta", quantity: 1, price: 3.49 },
-    { id: 3, name: "Caramelo de Menta", quantity: 4, price: 2.99 },
+    {
+      id: 1,
+      name: "Choc Melos",
+      category: "Dulce",
+      quantity: 1,
+      price: 3000,
+      stock: 10,
+      imageUrl: "/images/chocmelos.jpg",
+    },
+    {
+      id: 2,
+      name: "Trolli Mordiscos",
+      category: "Dulce",
+      quantity: 1,
+      price: 2500,
+      stock: 5,
+      imageUrl: "/images/trolli.jpg",
+    },
+    {
+      id: 3,
+      name: "Max Combi",
+      category: "Dulce",
+      quantity: 1,
+      price: 2500,
+      stock: 8,
+      imageUrl: "../img/troli.png",
+    },
   ];
 
   const [cartItems, setCartItems] = useState(initialCartItems);
 
-  // Guardar en localStorage cada vez que cambia el estado del carrito
   useEffect(() => {
     sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  //Incrementar la cantidad de producto que el usuario desea comprar
   const increaseQuantity = (id) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === id && item.quantity < item.stock
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       )
     );
   };
 
-  //Decrementar la cantidad de producto que el usuario desea comprar
   const decreaseQuantity = (id) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
@@ -36,28 +58,57 @@ function CartPage() {
     );
   };
 
-  const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
+  const removeItem = (id) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+
+  const total = cartItems
+    .reduce((acc, item) => acc + item.price * item.quantity, 0)
+    .toLocaleString("es-CO");
 
   return (
     <div className="cart-page">
-      <h1>Carrito de Compras</h1>
+      <header className="cart-header">
+        <h2>PRODUCTO</h2>
+        <h2>CANTIDAD</h2>
+        <h2>TOTAL</h2>
+      </header>
+
       <div className="cart-items">
         {cartItems.map((item) => (
           <div key={item.id} className="cart-item">
-            <span className="item-name">{item.name}</span>
-            <span className="item-quantity">
+            <div className="product-info">
+              <img src={item.imageUrl} alt={item.name} className="item-image" />
+              <div>
+                <p className="category">{item.category}</p>
+                <p className="item-name">{item.name}</p>
+                <p className="item-price">${item.price.toLocaleString("es-CO")}</p>
+                <p className="item-stock">Stock disponible: {item.stock - item.quantity}</p>
+              </div>
+            </div>
+
+            <div className="quantity-controls">
               <button onClick={() => decreaseQuantity(item.id)}>-</button>
               <span>{item.quantity}</span>
-              <button onClick={() => increaseQuantity(item.id)}>+</button>
-            </span>
-            <span className="item-price">Precio: ${(item.price * item.quantity).toFixed(2)}</span>
+              <button
+                onClick={() => increaseQuantity(item.id)}
+                disabled={item.quantity >= item.stock}
+              >
+                +
+              </button>
+              <button onClick={() => removeItem(item.id)} className="remove-button">🗑️</button>
+            </div>
+
+            <p className="total-price">${(item.price * item.quantity).toLocaleString("es-CO")}</p>
           </div>
         ))}
       </div>
-      <div className="cart-total">
-        <h2>Total: ${total}</h2>
+
+      <div className="cart-summary">
+        <p>Total estimado <strong>${total} COP</strong></p>
+        <p>Impuestos, descuentos y envío calculados en la pantalla de pago</p>
+        <button className="checkout-button">Pagar pedido</button>
       </div>
-      <button className="checkout-button">Finalizar Compra</button>
     </div>
   );
 }

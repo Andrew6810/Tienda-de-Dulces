@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/components/CartPage.css";
 
 function CartPage() {
   const initialCartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
-
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState(initialCartItems);
 
   useEffect(() => {
@@ -37,6 +38,10 @@ function CartPage() {
   const total = cartItems
     .reduce((acc, item) => acc + item.price * item.quantity, 0)
     .toLocaleString("es-CO");
+
+  const gotoForm = () => {
+    navigate("/form");
+  };
 
   return (
     <div className="cart-page">
@@ -79,7 +84,7 @@ function CartPage() {
       <div className="cart-summary">
         <p>Total estimado <strong>${total} COP</strong></p>
         <p>Impuestos, descuentos y envío calculados en la pantalla de pago</p>
-        <button className="checkout-button">Pagar pedido</button>
+        <button className="checkout-button" onClick={gotoForm}>Rellenar datos de Envio</button>
       </div>
     </div>
   );

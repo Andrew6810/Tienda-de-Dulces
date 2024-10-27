@@ -15,8 +15,6 @@ public class Customer {
     private String mail;
     private String phone;
     private String address;
-    private String card;
-
 
     public Customer() {
     }
@@ -69,11 +67,4 @@ public class Customer {
         this.address = address;
     }
 
-    public String getCard() {
-        return card;
-    }
-
-    public void setCard(String card) {
-        this.card = card;
-    }
 }

@@ -16,21 +16,21 @@ import kit3 from '../components/img/kit3.png';
 
 
 const products = [
-  { name: "Fruticas", imgSrc: fruticas, price: "$10.000" },
-  { name: "Choco Break", imgSrc: choco, price: "$15.000" },
-  { name: "Jumbo", imgSrc: jumbo, price: "$3.000" },
-  { name: "Choco", imgSrc: chocomelos, price: "$2.000" },
-  { name: "Trolli", imgSrc: troli, price: "$2.500" },
-  { name: "Max", imgSrc: max, price: "$13.000" },
-  { name: "Surti", imgSrc: Surti, price: "$10.000" },
-  { name: "Manut", imgSrc: manut, price: "$13.000" },
-  { name: "Trulu", imgSrc: trulu, price: "$70.000" },
+  { name: "Fruticas", imgSrc: fruticas, price: "10000" ,stock: 10},
+  { name: "Choco Break", imgSrc: choco, price: "15.000" },
+  { name: "Jumbo", imgSrc: jumbo, price: "3.000" },
+  { name: "Choco", imgSrc: chocomelos, price: "2.000" },
+  { name: "Trolli", imgSrc: troli, price: "2.500" },
+  { name: "Max", imgSrc: max, price: "13.000" },
+  { name: "Surti", imgSrc: Surti, price: "10.000" },
+  { name: "Manut", imgSrc: manut, price: "13.000" },
+  { name: "Trulu", imgSrc: trulu, price: "70.000" },
 ];
 // Lista de kits
 const kits = [
-  { name: "Kit 1", imgSrc: kit1, price: "$25.000" },
-  { name: "Kit 2", imgSrc: kit2, price: "$40.000" },
-  { name: "Kit 3", imgSrc: kit3, price: "$35.000" },
+  { name: "Kit 1", imgSrc: kit1, price: "25.000" },
+  { name: "Kit 2", imgSrc: kit2, price: "40.000" },
+  { name: "Kit 3", imgSrc: kit3, price: "35.000" },
 ];
 
 // Componente EmojiButtons para mostrar los botones de emojis
@@ -57,7 +57,7 @@ function EmojiButtons() {
 // Componente para mostrar productos y kits
 function ProductList() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const productsToShow = 3;
+  const productsToShow = 6;
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
@@ -72,9 +72,29 @@ function ProductList() {
   };
 
   const handleAddToCart = (item) => {
+    // Mostrar alerta en pantalla
+    alert(`${item.name} ha sido agregado al carrito!`);
+  
+    // Obtener el carrito actual desde sessionStorage o inicializarlo si está vacío
+    const cartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
+  
+    // Buscar si el producto ya está en el carrito
+    const existingItemIndex = cartItems.findIndex((cartItem) => cartItem.id === item.id);
+  
+    if (existingItemIndex >= 0) {
+      // Si el producto ya está en el carrito, incrementa su cantidad
+      cartItems[existingItemIndex].quantity += 1;
+    } else {
+      // Si el producto no está en el carrito, agrégalo con cantidad inicial de 1
+      cartItems.push({ ...item, quantity: 1 });
+    }
+  
+    // Guardar el carrito actualizado en sessionStorage
+    sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+  
     console.log(`${item.name} ha sido agregado al carrito!`);
-    // Aquí puedes agregar la lógica para manejar el carrito
   };
+  
 
   return (
     <div className="product-list">

@@ -2,35 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/components/CartPage.css";
 
 function CartPage() {
-  const initialCartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [
-    {
-      id: 1,
-      name: "Choc Melos",
-      category: "Dulce",
-      quantity: 1,
-      price: 3000,
-      stock: 10,
-      imageUrl: "/images/chocmelos.jpg",
-    },
-    {
-      id: 2,
-      name: "Trolli Mordiscos",
-      category: "Dulce",
-      quantity: 1,
-      price: 2500,
-      stock: 5,
-      imageUrl: "/images/trolli.jpg",
-    },
-    {
-      id: 3,
-      name: "Max Combi",
-      category: "Dulce",
-      quantity: 1,
-      price: 2500,
-      stock: 8,
-      imageUrl: "../img/troli.png",
-    },
-  ];
+  const initialCartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
 
   const [cartItems, setCartItems] = useState(initialCartItems);
 

@@ -10,6 +10,8 @@ export const getProduct = async (id) => {
     return response.json();
 };
 
+export default { getProducts, getProduct };
+
 
 
 

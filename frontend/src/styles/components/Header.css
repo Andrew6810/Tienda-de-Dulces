@@ -7,7 +7,7 @@
   align-items: center;
   padding: 10px;
   background-color: white; /* Color de fondo del encabezado */
-  position: fixed; /* Fijar el encabezado */
+  position: sticky; /* Fijar el encabezado */
   top: 0; /* Colocar el encabezado en la parte superior */
   left: 0; /* Alinear a la izquierda */
   right: 0; /* Alinear a la derecha */

@@ -8,9 +8,9 @@ import API from '../services/api';
 
 // Lista de kits
 const kits = [
-  { name: "Kit 1", imgSrc: kit1, price: "25.000" },
-  { name: "Kit 2", imgSrc: kit2, price: "40.000" },
-  { name: "Kit 3", imgSrc: kit3, price: "35.000" },
+  { name: "Kit 1", imgSrc: kit1, price: "25000" },
+  { name: "Kit 2", imgSrc: kit2, price: "40000" },
+  { name: "Kit 3", imgSrc: kit3, price: "35000" },
 ];
 
 // Componente EmojiButtons para mostrar los botones de emojis
@@ -96,7 +96,7 @@ function ProductList() {
           <div className="product-card" key={index}>
             <img src={product.imgSrc} alt={product.name} />
             <p>{product.name}</p>
-            <p className="product-price">{product.price}</p>
+            <p className="product-price">${product.price}</p>
             <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
               Añadir al carrito
             </button>
@@ -120,7 +120,7 @@ function ProductList() {
           <div className="product-card" key={index}>
             <img src={kit.imgSrc} alt={kit.name} />
             <p>{kit.name}</p>
-            <p className="product-price">{kit.price}</p>
+            <p className="product-price">${kit.price}</p>
             <button className="add-to-cart" onClick={() => handleAddToCart(kit)}>
               Añadir al carrito
             </button>

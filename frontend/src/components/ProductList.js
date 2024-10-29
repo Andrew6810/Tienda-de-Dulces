@@ -16,8 +16,8 @@ import kit3 from '../components/img/kit3.png';
 
 
 const products = [
-  { name: "Fruticas", imgSrc: fruticas, price: "10000" ,stock: 10},
-  { name: "Choco Break", imgSrc: choco, price: "15.000" },
+  { id: 1, name: "Fruticas", imgSrc: fruticas, price: "10000" ,stock: 10},
+  { id: 2, name: "Choco Break", imgSrc: choco, price: "15.000" },
   { name: "Jumbo", imgSrc: jumbo, price: "3.000" },
   { name: "Choco", imgSrc: chocomelos, price: "2.000" },
   { name: "Trolli", imgSrc: troli, price: "2.500" },

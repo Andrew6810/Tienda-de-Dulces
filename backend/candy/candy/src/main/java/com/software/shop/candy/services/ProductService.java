@@ -24,4 +24,15 @@ public class ProductService {
     public Product getProductByName(String name) {
         return productRepository.findByName(name);
     }
+
+
+    //añadido
+    public Product addProduct(Product product) { return productRepository.save(product);
+    }
+
+    public Product updateProduct(Product product) { return productRepository.save(product);
+    }
+
+    public void deleteProduct(Integer productId) { productRepository.deleteById(productId);
+    }
 }

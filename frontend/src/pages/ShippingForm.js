@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/components/ShippingForm.css';
 import { useNavigate } from 'react-router-dom';
+import API from '../services/api.js';
 
 const ShippingForm = () => {
 
@@ -29,6 +30,27 @@ const ShippingForm = () => {
         
         // Guardar los datos en sessionStorage (opcional)
         sessionStorage.setItem('shippingInfo', JSON.stringify(formData));
+        // Actualizar stock de cada item en el carrito
+        const cartItems = JSON.parse(sessionStorage.getItem('cartItems'));
+        const updatedCartItems = cartItems.map((item) => {
+            return { ...item, quantity: item.stock - item.purchaseQuantity
+            };
+        });
+        sessionStorage.setItem('updatedCartItems', JSON.stringify(updatedCartItems));
+        // Enviar la información al backend
+        updatedCartItems.forEach((item) => {
+            item ={
+                id: item.id,
+                description: item.description,
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+            }
+            API.updateProduct(item).then(() => {
+                console.log('Stock actualizado');
+            });
+        });
+        // Limpiar el carrito
         sessionStorage.setItem('cartItems', JSON.stringify([]));
         // Mostrar mensaje de confirmación
         setSubmitted(true);

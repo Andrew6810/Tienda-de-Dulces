@@ -10,8 +10,15 @@ export const getProduct = async (id) => {
     return response.json();
 };
 
-export default { getProducts, getProduct };
+export const updateProduct = async (data) => {
+    const response = await fetch(`${API_URL}/products/update`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    return response.json();
+};
 
-
-
-
+export default { getProducts, getProduct, updateProduct };

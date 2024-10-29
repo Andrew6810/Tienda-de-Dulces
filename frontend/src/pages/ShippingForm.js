@@ -29,7 +29,7 @@ const ShippingForm = () => {
         
         // Guardar los datos en sessionStorage (opcional)
         sessionStorage.setItem('shippingInfo', JSON.stringify(formData));
-
+        sessionStorage.setItem('cartItems', JSON.stringify([]));
         // Mostrar mensaje de confirmación
         setSubmitted(true);
         navigate('/');

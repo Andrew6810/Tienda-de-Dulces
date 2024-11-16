@@ -1,19 +1,44 @@
-import React, { useState } from "react";
-import "../styles/components/Header.css"; // Archivo CSS para estilos específicos del header
-import "../styles/Search.css"; // Importar los estilos del cuadro de búsqueda
+import React, { useState, useEffect } from "react";
+import "../styles/components/Header.css";
+import "../styles/Search.css";
 import { useNavigate } from "react-router-dom";
+import API from '../services/api'; // Asegúrate de importar tu API
 
 function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Controla si el menú está abierto
-  const [isSearchVisible, setIsSearchVisible] = useState(false); // Controla la visibilidad del cuadro de búsqueda
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]); // Estado para almacenar productos filtrados
   const navigate = useNavigate();
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     console.log("Menú abierto:", !isMenuOpen);
   };
 
   const toggleSearch = () => {
-    setIsSearchVisible(!isSearchVisible); // Alternar la visibilidad del cuadro de búsqueda
+    setIsSearchVisible(!isSearchVisible);
+    setSearchTerm(''); // Limpia el término de búsqueda al abrir o cerrar
+    setFilteredProducts([]); // Limpia los productos filtrados
+  };
+
+  const handleSearchChange = async (event) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+
+    if (term) {
+      try {
+        const allProducts = await API.getProducts();
+        const filtered = allProducts.filter((product) =>
+          product.name.toLowerCase().includes(term.toLowerCase())
+        );
+        setFilteredProducts(filtered);
+      } catch (error) {
+        console.error("Error al buscar productos:", error);
+      }
+    } else {
+      setFilteredProducts([]);
+    }
   };
 
   const gotoCart = () => {
@@ -32,18 +57,15 @@ function Header() {
         </h1>
       </div>
 
-      {/* Botón del menú para pantallas pequeñas */}
-
       <button
         className="menu-btn"
         onClick={toggleMenu}
         aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
         aria-expanded={isMenuOpen}
       >
-        ☰ {/* Icono de menú hamburguesa */}
+        ☰
       </button>
 
-      {/* Enlaces de navegación */}
       <nav className={`nav-links ${isMenuOpen ? "open" : ""}`}>
         <ul>
           <li onClick={gotoHome}>
@@ -62,7 +84,7 @@ function Header() {
       </nav>
 
       <div className="icons">
-        <button className="carrito-btn" onClick={gotoCart }>
+        <button className="carrito-btn" onClick={gotoCart}>
           <i className="cart-icon">🛒</i>
           <span>Carrito</span>
         </button>
@@ -78,10 +100,23 @@ function Header() {
         </button>
       </div>
 
-      {/* Cuadro de búsqueda */}
       {isSearchVisible && (
         <div className="search-box">
-          <input type="text" placeholder="¿Qué artículo deseas buscar?" />
+          <input
+            type="text"
+            placeholder="¿Qué artículo deseas buscar?"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          {filteredProducts.length > 0 && (
+            <div className="search-results">
+              {filteredProducts.map((product) => (
+                <div key={product.id} className="search-result-item">
+                  {product.name}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </header>

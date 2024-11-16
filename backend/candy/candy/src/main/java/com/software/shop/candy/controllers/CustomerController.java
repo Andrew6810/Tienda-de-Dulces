@@ -9,6 +9,7 @@ import com.software.shop.candy.models.Customer;
 
 @RestController
 @RequestMapping("/api/customer")
+@CrossOrigin("*")
 public class CustomerController {
     @Autowired
     private CustomerService customerService;

@@ -66,7 +66,7 @@ const ShippingForm = () => {
         sessionStorage.setItem('cartItems', JSON.stringify([]));
         // Mostrar mensaje de confirmación
         setSubmitted(true);
-        navigate('/');
+        navigate('/checkout');
 
     };
 
@@ -77,67 +77,67 @@ const ShippingForm = () => {
             <p>¡Gracias! Su información de envío ha sido guardada.</p>
         ) : (
             <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label htmlFor="first_name">Nombre:</label>
-                <input
-                type="text"
-                id="first_name"
-                name="first_name"
-                value={formData.first_name}
-                onChange={handleChange}
-                required
-                />
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="last_name">Apellido:</label>
-                <input
+                <div className="form-group">
+                    <label htmlFor="first_name">Nombre:</label>
+                    <input
                     type="text"
-                    id="last_name"
-                    name="last_name"
-                    value={formData.last_name}
+                    id="first_name"
+                    name="first_name"
+                    value={formData.first_name}
                     onChange={handleChange}
                     required
-                />
-            </div>
+                    />
+                </div>
 
-            <div className="form-group">
-                <label htmlFor="address">Dirección:</label>
-                <input
-                type="text"
-                id="address"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                required
-                />
-            </div>
+                <div className="form-group">
+                    <label htmlFor="last_name">Apellido:</label>
+                    <input
+                        type="text"
+                        id="last_name"
+                        name="last_name"
+                        value={formData.last_name}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
 
-            <div className="form-group">
-                <label htmlFor="mail">Email:</label>
-                <input
-                type="email"
-                id="mail"
-                name="mail"
-                value={formData.mail}
-                onChange={handleChange}
-                required
-                />
-            </div>
+                <div className="form-group">
+                    <label htmlFor="address">Dirección:</label>
+                    <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    required
+                    />
+                </div>
 
-            <div className="form-group">
-                <label htmlFor="phone">Teléfono:</label>
-                <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                />
-            </div>
+                <div className="form-group">
+                    <label htmlFor="mail">Email:</label>
+                    <input
+                    type="email"
+                    id="mail"
+                    name="mail"
+                    value={formData.mail}
+                    onChange={handleChange}
+                    required
+                    />
+                </div>
 
-            <button type="submit" className="submit-button">Guardar Información de Envío</button>
+                <div className="form-group">
+                    <label htmlFor="phone">Teléfono:</label>
+                    <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    />
+                </div>
+
+                <button type="submit" className="submit-button">Guardar Información de Envío</button>
             </form>
         )}
         </div>

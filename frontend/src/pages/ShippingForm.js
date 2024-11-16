@@ -30,6 +30,18 @@ const ShippingForm = () => {
         
         // Guardar los datos en sessionStorage (opcional)
         sessionStorage.setItem('shippingInfo', JSON.stringify(formData));
+        const data = {
+            first_name: formData.first_name,
+            last_name: formData.last_name,
+            address: formData.address,
+            mail: formData.mail,
+            phone: formData.phone,
+        };
+        // Enviar la información al backend
+        API.saveCustomerInfo(data).then(() => {
+            console.log('Información de envío guardada');
+        });
+
         // Actualizar stock de cada item en el carrito
         const cartItems = JSON.parse(sessionStorage.getItem('cartItems'));
         const updatedCartItems = cartItems.map((item) => {
@@ -66,24 +78,24 @@ const ShippingForm = () => {
         ) : (
             <form onSubmit={handleSubmit}>
             <div className="form-group">
-                <label htmlFor="name">Nombre:</label>
+                <label htmlFor="first_name">Nombre:</label>
                 <input
                 type="text"
-                id="name"
-                name="name"
-                value={formData.name}
+                id="first_name"
+                name="first_name"
+                value={formData.first_name}
                 onChange={handleChange}
                 required
                 />
             </div>
 
             <div className="form-group">
-                <label htmlFor="lastName">Apellido:</label>
+                <label htmlFor="last_name">Apellido:</label>
                 <input
                     type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={formData.lastName}
+                    id="last_name"
+                    name="last_name"
+                    value={formData.last_name}
                     onChange={handleChange}
                     required
                 />

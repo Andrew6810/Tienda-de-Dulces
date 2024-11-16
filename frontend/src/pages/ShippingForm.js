@@ -62,8 +62,6 @@ const ShippingForm = () => {
                 console.log('Stock actualizado');
             });
         });
-        // Limpiar el carrito
-        sessionStorage.setItem('cartItems', JSON.stringify([]));
         // Mostrar mensaje de confirmación
         setSubmitted(true);
         navigate('/checkout');

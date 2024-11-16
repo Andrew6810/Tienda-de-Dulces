@@ -40,6 +40,10 @@ function CartPage() {
     .toLocaleString("es-CO");
 
   const gotoForm = () => {
+    if (cartItems.length === 0) {
+      alert("No hay productos en el carrito");
+      return;
+    }
     navigate("/form");
   };
 

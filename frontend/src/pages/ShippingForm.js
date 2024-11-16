@@ -8,8 +8,8 @@ const ShippingForm = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        name: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         address: '',
         mail: '',
         phone: '',

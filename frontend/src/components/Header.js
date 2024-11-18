@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/components/Header.css";
 import "../styles/Search.css";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,8 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState([]); // Estado para almacenar productos filtrados
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const searchBoxRef = useRef(null); // Referencia para el cajón de búsqueda
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -18,8 +19,8 @@ function Header() {
 
   const toggleSearch = () => {
     setIsSearchVisible(!isSearchVisible);
-    setSearchTerm(''); // Limpia el término de búsqueda al abrir o cerrar
-    setFilteredProducts([]); // Limpia los productos filtrados
+    setSearchTerm('');
+    setFilteredProducts([]);
   };
 
   const handleSearchChange = async (event) => {
@@ -41,13 +42,32 @@ function Header() {
     }
   };
 
+  const handleClickOutside = (event) => {
+    // Si el clic ocurrió fuera del cajón de búsqueda, ciérralo
+    if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
+      setIsSearchVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isSearchVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSearchVisible]);
+
   const gotoCart = () => {
     navigate("/cart");
-  }
+  };
 
   const gotoHome = () => {
     navigate("/");
-  }
+  };
 
   return (
     <header className="header">
@@ -101,7 +121,7 @@ function Header() {
       </div>
 
       {isSearchVisible && (
-        <div className="search-box">
+        <div className="search-box" ref={searchBoxRef}>
           <input
             type="text"
             placeholder="¿Qué artículo deseas buscar?"
@@ -124,3 +144,4 @@ function Header() {
 }
 
 export default Header;
+

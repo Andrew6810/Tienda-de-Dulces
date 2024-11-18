@@ -40,11 +40,17 @@ function ProductList() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const productsToShow = 6;
 
+  const assignImage = (product) => ({
+    ...product,
+    imgSrc: `../components/img/${product.name.replace(" ", "_").toLowerCase()}.png`,
+  });
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await API.getProducts();
-        setProducts(response);
+        const products = response.map(assignImage);
+        setProducts(products);
       } catch (error) {
         console.error('Error fetching products:', error);
       }

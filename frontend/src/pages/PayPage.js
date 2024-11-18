@@ -58,7 +58,7 @@ const PayPage = () => {
           cartItems.map((item) => (
             <div key={item.id} className="cart-item">
               <div className="item-info">
-                <img src={item.image} alt={item.name} className="item-image" />
+                <img src={item.imgSrc} alt={item.name} className="item-image" />
                 <div>
                   <p className="item-name">{item.name}</p>
                   <p className="item-price">${item.price} COP</p>

@@ -42,7 +42,7 @@ function ProductList() {
 
   const assignImage = (product) => ({
     ...product,
-    imgSrc: `../components/img/${product.name.replace(" ", "_").toLowerCase()}.png`,
+    imgSrc: `/components/img/${product.name.replace(" ", "_").toLowerCase()}.png`,
   });
 
   useEffect(() => {
@@ -51,6 +51,7 @@ function ProductList() {
         const response = await API.getProducts();
         const products = response.map(assignImage);
         setProducts(products);
+        sessionStorage.setItem("products", JSON.stringify(products));
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -102,7 +103,7 @@ function ProductList() {
           <div className="product-card" key={index}>
             <img src={product.imgSrc} alt={product.name} />
             <p>{product.name}</p>
-            <p className="product-price">${product.price}</p>
+            <p className="product-price">Precio: ${product.price}</p>
             <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
               Añadir al carrito
             </button>

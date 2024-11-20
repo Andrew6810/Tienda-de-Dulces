@@ -14,6 +14,7 @@ public class Product {
     private String description;
     private Double price;
     private Integer quantity;
+    private Integer category;
 
     public Integer getId() {
         return id;
@@ -54,4 +55,13 @@ public class Product {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
+    }
 }
+

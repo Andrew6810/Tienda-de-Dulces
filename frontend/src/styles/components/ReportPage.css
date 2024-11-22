@@ -1,0 +1,38 @@
+.reports-page {
+  padding: 20px;
+}
+
+h2, h3, h4 {
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.add-product input {
+  margin: 5px 0;
+  padding: 8px;
+  width: 100%;
+}
+
+.add-product button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.add-product button:hover {
+  background-color: #0056b3;
+}

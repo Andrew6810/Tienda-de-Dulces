@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/invoice")
+@CrossOrigin("*")
 public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
@@ -22,5 +23,26 @@ public class InvoiceController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<Invoice> createInvoice(Invoice invoice) {
+        try {
+            invoice = invoiceService.createInvoice(invoice);
+            return ResponseEntity.ok(invoice);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Iterable<Invoice>> getAllInvoices() {
+        try {
+            Iterable<Invoice> invoices = invoiceService.getAllInvoices();
+            return ResponseEntity.ok(invoices);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 
 }

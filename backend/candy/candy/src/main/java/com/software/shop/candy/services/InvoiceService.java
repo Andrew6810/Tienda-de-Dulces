@@ -32,5 +32,12 @@ public class InvoiceService {
 
     }
 
+    public Iterable<Invoice> getAllInvoices() {
+        return invoiceRepository.findAll();
+    }
+
+    public Invoice createInvoice(Invoice invoice) { return invoiceRepository.save(invoice);
+    }
+
 
 }

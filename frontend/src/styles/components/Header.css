@@ -118,7 +118,7 @@
 }
 
 /* Estilos de los botones */
-.contact-btn, .buscar-btn, .carrito-btn {
+.contact-btn, .buscar-btn, .carrito-btn, .reporte-btn {
   display: flex; /* Usar flexbox */
   justify-content: center; /* Centrar horizontalmente */
   align-items: center; /* Centrar verticalmente */

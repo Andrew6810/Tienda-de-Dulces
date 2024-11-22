@@ -69,6 +69,10 @@ function Header() {
     navigate("/");
   };
 
+  const gotoLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <header className="header">
       <div className="logo">
@@ -104,6 +108,10 @@ function Header() {
       </nav>
 
       <div className="icons">
+        <button className="reporte-btn" onClick={gotoLogin}>
+          <i className="report-icon">👤</i>
+          <span>Reportes</span>
+        </button>
         <button className="carrito-btn" onClick={gotoCart}>
           <i className="cart-icon">🛒</i>
           <span>Carrito</span>

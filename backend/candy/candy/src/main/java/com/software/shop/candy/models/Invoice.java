@@ -52,4 +52,14 @@ public class Invoice {
     public void setDate(Timestamp date) {
         this.date = date;
     }
+
+    public Invoice() {
+    }
+
+    public Invoice(Customer customer, Double total, Timestamp date, Integer id) {
+        this.id = id;
+        this.customer = customer;
+        this.total = total;
+        this.date = date;
+    }
 }

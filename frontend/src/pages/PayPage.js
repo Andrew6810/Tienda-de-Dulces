@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jsPDF } from 'jspdf'; // Importa jsPDF
 import '../styles/components/PayPage.css'; 
+import API from '../services/api.js';
 
 const PayPage = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const updatedCartItems = JSON.parse(sessionStorage.getItem('updatedCartItems')) || [];
+  const customer = JSON.parse(sessionStorage.getItem('shippingInfo')) || [];
 
   // Cargar el carrito desde sessionStorage al cargar la página
   useEffect(() => {
@@ -19,6 +22,34 @@ const PayPage = () => {
   }, []);
 
   const handleCheckout = () => {
+    // Enviar la información al backend
+    updatedCartItems.forEach((item) => {
+      item ={
+          id: item.id,
+          description: item.description,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+      }
+      API.updateProduct(item).then(() => {
+          console.log('Stock actualizado');
+      });
+  });
+
+    // Agregar nuevo comprador
+    API.saveCustomerInfo(customer).then(() => {
+      console.log('Nuevo cliente agregado');
+    });
+
+    const invoice = {
+      address: customer.address,
+      date: customer.date,
+      total: totalPrice,
+      id_customer: customer.id,
+    };
+    API.createInvoice(invoice).then(() => {
+      console.log('Factura creada');
+    });
     // Limpiar el carrito
     sessionStorage.setItem('cartItems', JSON.stringify([]));
     navigate('/');
@@ -74,18 +105,22 @@ const PayPage = () => {
       </div>
       
       <div className="checkout-summary">
-        <h3>Total del Pedido</h3>
-        <p>Total: ${totalPrice} COP</p>
-        <p>Impuestos, descuentos y envío calculados en la pantalla de pago final.</p>
+        <h3>Total del Pedido:  ${totalPrice} COP</h3>
       </div>
+      <div className='cart-summary'>
+        <h2>Información del Cliente</h2>
+        <p><strong>Nombre:</strong> {customer.first_name} {customer.last_name}</p>
+        <p><strong>Dirección:</strong> {customer.address}</p>
+        <p><strong>Fecha de Pedido:</strong> {customer.date}</p>
+      </div>
+
 
       <button 
         onClick={handleCheckout} 
         className="checkout-button"
       >
-        Finalizar Pedido
+        Confirmar Pedido
       </button>
-
       <button 
         onClick={downloadInvoice} 
         className="download-button"

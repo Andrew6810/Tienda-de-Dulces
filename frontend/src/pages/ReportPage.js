@@ -11,8 +11,6 @@ function ReportPage() {
     API.getProducts().then((data) => setProducts(data));
   }, []);
 
-  console.log(invoices);
-
   return (
     <div className="reports-page">
       <h2>Reportes</h2>

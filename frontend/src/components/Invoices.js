@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import "../styles/components/Invoices.css";
 
-
-function Invoices(){
-    const [invoices, setInvoices] = useState([]);
+function Invoices() {
+  const [invoices, setInvoices] = useState([]);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    navigate("/");
+  };
 
   useEffect(() => {
     API.getInvoices().then((data) => setInvoices(data));
@@ -12,6 +17,12 @@ function Invoices(){
   return (
     <div className="reports-page">
       <h2>Reportes</h2>
+
+      {/* Botón de cierre de sesión */}
+      <button onClick={handleLogout} className="logout-button">
+        Cerrar sesión
+      </button>
+
       <section>
         <h3>Facturas</h3>
         <table>
@@ -41,6 +52,6 @@ function Invoices(){
       </section>
     </div>
   );
-};
+}
 
 export default Invoices;

@@ -14,8 +14,8 @@ function CartPage() {
   const increaseQuantity = (id) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id && item.quantity < item.stock
-          ? { ...item, quantity: item.quantity + 1 }
+        item.id === id && item.purchaseQuantity < item.stock
+          ? { ...item, purchaseQuantity: item.purchaseQuantity + 1 }
           : item
       )
     );
@@ -24,8 +24,8 @@ function CartPage() {
   const decreaseQuantity = (id) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
+        item.id === id && item.purchaseQuantity > 1
+          ? { ...item, purchaseQuantity: item.purchaseQuantity - 1 }
           : item
       )
     );
@@ -36,10 +36,14 @@ function CartPage() {
   };
 
   const total = cartItems
-    .reduce((acc, item) => acc + item.price * item.quantity, 0)
+    .reduce((acc, item) => acc + item.price * item.purchaseQuantity, 0)
     .toLocaleString("es-CO");
 
   const gotoForm = () => {
+    if (cartItems.length === 0) {
+      alert("No hay productos en el carrito");
+      return;
+    }
     navigate("/form");
   };
 
@@ -55,28 +59,28 @@ function CartPage() {
         {cartItems.map((item) => (
           <div key={item.id} className="cart-item">
             <div className="product-info">
-              <img src={item.imageUrl} alt={item.name} className="item-image" />
+              <img src={item.imgSrc} alt={item.name} className="item-image" />
               <div>
                 <p className="category">{item.category}</p>
                 <p className="item-name">{item.name}</p>
                 <p className="item-price">${item.price.toLocaleString("es-CO")}</p>
-                <p className="item-stock">Stock disponible: {item.stock - item.quantity}</p>
+                <p className="item-stock">Stock disponible: {item.stock - item.purchaseQuantity}</p>
               </div>
             </div>
 
             <div className="quantity-controls">
               <button onClick={() => decreaseQuantity(item.id)}>-</button>
-              <span>{item.quantity}</span>
+              <span>{item.purchaseQuantity}</span>
               <button
                 onClick={() => increaseQuantity(item.id)}
-                disabled={item.quantity >= item.stock}
+                disabled={item.purchaseQuantity >= item.stock}
               >
                 +
               </button>
               <button onClick={() => removeItem(item.id)} className="remove-button">🗑️</button>
             </div>
 
-            <p className="total-price">${(item.price * item.quantity).toLocaleString("es-CO")}</p>
+            <p className="total-price">${(item.price * item.purchaseQuantity).toLocaleString("es-CO")}</p>
           </div>
         ))}
       </div>

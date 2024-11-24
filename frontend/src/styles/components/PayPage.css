@@ -56,4 +56,19 @@
   .checkout-button:hover {
     background-color: #f5a623;
   }
+
+  .download-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .download-button:hover {
+    background-color: #3c8d3f;
+  }
+  
   

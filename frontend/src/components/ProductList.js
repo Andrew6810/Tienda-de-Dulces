@@ -1,36 +1,16 @@
 // src/components/ProductList.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/components/ProductList.css';  // Estilos de la lista de productos
-import fruticas from '../components/img/fruticas.png';
-import choco from '../components/img/choco.png';
-import jumbo from '../components/img/jumbo.png';
-import chocomelos from '../components/img/chocomelos.png';
-import troli from '../components/img/troli.png';
-import max from '../components/img/max.png';
-import Surti from '../components/img/surti.png'; 
-import manut from '../components/img/manut.png'; 
-import trulu from '../components/img/trulu.png'; 
 import kit1 from '../components/img/kit1.png'; 
 import kit2 from '../components/img/kit2.png'; 
 import kit3 from '../components/img/kit3.png';
+import API from '../services/api';
 
-
-const products = [
-  { id: 1, name: "Fruticas", imgSrc: fruticas, price: "10000" ,stock: 10},
-  { id: 2, name: "Choco Break", imgSrc: choco, price: "15.000" },
-  { name: "Jumbo", imgSrc: jumbo, price: "3.000" },
-  { name: "Choco", imgSrc: chocomelos, price: "2.000" },
-  { name: "Trolli", imgSrc: troli, price: "2.500" },
-  { name: "Max", imgSrc: max, price: "13.000" },
-  { name: "Surti", imgSrc: Surti, price: "10.000" },
-  { name: "Manut", imgSrc: manut, price: "13.000" },
-  { name: "Trulu", imgSrc: trulu, price: "70.000" },
-];
 // Lista de kits
 const kits = [
-  { name: "Kit 1", imgSrc: kit1, price: "25.000" },
-  { name: "Kit 2", imgSrc: kit2, price: "40.000" },
-  { name: "Kit 3", imgSrc: kit3, price: "35.000" },
+  { name: "Kit 1", imgSrc: kit1, price: "25000" },
+  { name: "Kit 2", imgSrc: kit2, price: "40000" },
+  { name: "Kit 3", imgSrc: kit3, price: "35000" },
 ];
 
 // Componente EmojiButtons para mostrar los botones de emojis
@@ -56,8 +36,29 @@ function EmojiButtons() {
 
 // Componente para mostrar productos y kits
 function ProductList() {
+  const [products, setProducts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const productsToShow = 6;
+
+  const assignImage = (product) => ({
+    ...product,
+    imgSrc: `/components/img/${product.name.replace(" ", "_").toLowerCase()}.png`,
+  });
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await API.getProducts();
+        const products = response.map(assignImage);
+        setProducts(products);
+        sessionStorage.setItem("products", JSON.stringify(products));
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+    
+    fetchProducts();
+  }, []);
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
@@ -72,21 +73,20 @@ function ProductList() {
   };
 
   const handleAddToCart = (item) => {
-    // Mostrar alerta en pantalla
     alert(`${item.name} ha sido agregado al carrito!`);
   
     // Obtener el carrito actual desde sessionStorage o inicializarlo si está vacío
     const cartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
   
     // Buscar si el producto ya está en el carrito
-    const existingItemIndex = cartItems.findIndex((cartItem) => cartItem.id === item.id);
+    const existingItemIndex = cartItems.findIndex((cartItem) => cartItem.name === item.name);
   
     if (existingItemIndex >= 0) {
-      // Si el producto ya está en el carrito, incrementa su cantidad
-      cartItems[existingItemIndex].quantity += 1;
+      // Si el producto ya está en el carrito, incrementa su cantidad de compra
+      cartItems[existingItemIndex].purchaseQuantity += 1;
     } else {
-      // Si el producto no está en el carrito, agrégalo con cantidad inicial de 1
-      cartItems.push({ ...item, quantity: 1 });
+      // Si el producto no está en el carrito, agrégalo con cantidad de compra inicial de 1 y stock especificado
+      cartItems.push({ ...item, stock: item.quantity, purchaseQuantity: 1 });
     }
   
     // Guardar el carrito actualizado en sessionStorage
@@ -94,7 +94,6 @@ function ProductList() {
   
     console.log(`${item.name} ha sido agregado al carrito!`);
   };
-  
 
   return (
     <div className="product-list">
@@ -104,34 +103,31 @@ function ProductList() {
           <div className="product-card" key={index}>
             <img src={product.imgSrc} alt={product.name} />
             <p>{product.name}</p>
-            <p className="product-price">{product.price}</p>
+            <p className="product-price">Precio: ${product.price}</p>
             <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
               Añadir al carrito
             </button>
           </div>
         ))}
-
       </div>
       <div className="nav-buttons">
         <button className="nav-button" onClick={handlePrev}>
-          &#10094; {/* Flecha izquierda */}
+          &#10094;
         </button>
         <button className="nav-button" onClick={handleNext}>
-          &#10095; {/* Flecha derecha */}
+          &#10095;
         </button>
       </div>
 
- {/* Botones Emoji */}
- <EmojiButtons />
+      <EmojiButtons />
 
-{/* Sección de Kits */}
-<h3>Kits</h3>
+      <h3>Kits</h3>
       <div className="product-cards">
         {kits.map((kit, index) => (
           <div className="product-card" key={index}>
             <img src={kit.imgSrc} alt={kit.name} />
             <p>{kit.name}</p>
-            <p className="product-price">{kit.price}</p>
+            <p className="product-price">${kit.price}</p>
             <button className="add-to-cart" onClick={() => handleAddToCart(kit)}>
               Añadir al carrito
             </button>

@@ -46,11 +46,29 @@ export const createInvoice = async (data) => {
 export const getInvoices = async () => {
     const response = await fetch(`${API_URL}/invoice/all`);
     return response.json();
-}
+};
 
 export const getCustomersById = async (id) => {
     const response = await fetch(`${API_URL}/customer/${id}`);
     return response.json();
-}
+};
 
-export default { getProducts, getProduct, updateProduct, saveCustomerInfo, createInvoice, getInvoices, getCustomersById };
+export const addProduct = async (data) => {
+    const response = await fetch(`${API_URL}/products/add`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    return response.json();
+};
+
+export const deleteProduct = async (productId) => {
+    const response = await fetch(`${API_URL}/products/delete/${productId}`, {
+        method: 'DELETE',
+    });
+    return null;
+};
+
+export default { getProducts, getProduct, updateProduct, saveCustomerInfo, createInvoice, getInvoices, getCustomersById, addProduct, deleteProduct };

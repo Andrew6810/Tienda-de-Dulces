@@ -111,6 +111,7 @@ function ProductManager() {
           </tbody>
         </table>
 
+        <h4>Añadir Productos</h4>
         <div className="add-product">
           <input
             required

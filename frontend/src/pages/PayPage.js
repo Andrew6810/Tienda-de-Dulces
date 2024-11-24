@@ -36,22 +36,21 @@ const PayPage = () => {
       });
   });
 
-    // Agregar nuevo comprador
-    const responseCustomer = API.saveCustomerInfo(customer).then((responseCustomer) => {
-      console.log('Cliente creado');
-      console.log(responseCustomer);
-    });
+    async function createInvoiceAndCustomer(customer, totalPrice) {
+      const responseCustomer = await API.saveCustomerInfo(customer);
 
-    const invoice = {
-      date: new Date().toISOString(),
-      total: totalPrice,
-      id_customer: responseCustomer.id,
+      const invoice = {
+        customer: responseCustomer,
+        total: totalPrice,
+        date: new Date().toISOString(),
+      };
+
+      const responseInvoice = await API.createInvoice(invoice);
+
+      return responseInvoice;
     };
-    console.log(invoice);
-    const responseInvoice =  API.createInvoice(invoice).then((responseInvoice) => {
-      console.log('Factura creada');
-      console.log(responseInvoice);
-    });
+    createInvoiceAndCustomer(customer, totalPrice);
+
     // Limpiar el carrito
     sessionStorage.setItem('cartItems', JSON.stringify([]));
     navigate('/');

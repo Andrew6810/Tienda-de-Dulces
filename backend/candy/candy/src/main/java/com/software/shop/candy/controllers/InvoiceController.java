@@ -28,13 +28,9 @@ public class InvoiceController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createInvoice(@RequestBody Invoice invoice) {
-        try {
+    public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
             Invoice savedInvoice = invoiceService.createInvoice(invoice);
             return new ResponseEntity<>(savedInvoice, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error al crear la factura de compra",HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/all")

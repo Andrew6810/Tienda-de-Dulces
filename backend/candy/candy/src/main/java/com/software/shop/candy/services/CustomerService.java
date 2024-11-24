@@ -13,4 +13,8 @@ public class CustomerService {
     public Customer registerCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
+
+    public Customer getCustomerById(Integer id) {
+        return customerRepository.findById(id).orElse(null);
+    }
 }

@@ -12,7 +12,6 @@ const ShippingForm = () => {
         address: '',
         mail: '',
         phone: '',
-        date: new Date().toLocaleDateString(),
     });
 
     const [submitted, setSubmitted] = useState(false);

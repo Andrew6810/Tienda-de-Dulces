@@ -24,5 +24,15 @@ public class CustomerController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Integer id) {
+        try {
+            Customer customer = customerService.getCustomerById(id);
+            return ResponseEntity.ok(customer);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 
 }

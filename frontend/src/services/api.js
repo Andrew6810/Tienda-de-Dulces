@@ -43,4 +43,14 @@ export const createInvoice = async (data) => {
     return response.json();
 };
 
-export default { getProducts, getProduct, updateProduct, saveCustomerInfo };
+export const getInvoices = async () => {
+    const response = await fetch(`${API_URL}/invoice/all`);
+    return response.json();
+}
+
+export const getCustomersById = async (id) => {
+    const response = await fetch(`${API_URL}/customer/${id}`);
+    return response.json();
+}
+
+export default { getProducts, getProduct, updateProduct, saveCustomerInfo, createInvoice, getInvoices, getCustomersById };

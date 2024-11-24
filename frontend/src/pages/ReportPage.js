@@ -7,10 +7,11 @@ function ReportPage() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    ///API.getInvoices().then((data) => setInvoices(data));
-
+    API.getInvoices().then((data) => setInvoices(data));
     API.getProducts().then((data) => setProducts(data));
   }, []);
+
+  console.log(invoices);
 
   return (
     <div className="reports-page">
@@ -30,9 +31,9 @@ function ReportPage() {
             {invoices.map((invoice, index) => (
               <tr key={index}>
                 <td>{invoice.id}</td>
-                <td>{invoice.customer}</td>
+                <td>{invoice.customer.first_name}</td>
                 <td>{new Date(invoice.date).toLocaleDateString()}</td>
-                <td>${invoice.total.toFixed(2)}</td>
+                <td>${invoice.total}</td>
               </tr>
             ))}
           </tbody>

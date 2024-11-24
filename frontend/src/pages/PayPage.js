@@ -37,18 +37,20 @@ const PayPage = () => {
   });
 
     // Agregar nuevo comprador
-    API.saveCustomerInfo(customer).then(() => {
-      console.log('Nuevo cliente agregado');
+    const responseCustomer = API.saveCustomerInfo(customer).then((responseCustomer) => {
+      console.log('Cliente creado');
+      console.log(responseCustomer);
     });
 
     const invoice = {
-      address: customer.address,
-      date: customer.date,
+      date: new Date().toISOString(),
       total: totalPrice,
-      id_customer: customer.id,
+      id_customer: responseCustomer.id,
     };
-    API.createInvoice(invoice).then(() => {
+    console.log(invoice);
+    const responseInvoice =  API.createInvoice(invoice).then((responseInvoice) => {
       console.log('Factura creada');
+      console.log(responseInvoice);
     });
     // Limpiar el carrito
     sessionStorage.setItem('cartItems', JSON.stringify([]));
@@ -111,7 +113,6 @@ const PayPage = () => {
         <h2>Información del Cliente</h2>
         <p><strong>Nombre:</strong> {customer.first_name} {customer.last_name}</p>
         <p><strong>Dirección:</strong> {customer.address}</p>
-        <p><strong>Fecha de Pedido:</strong> {customer.date}</p>
       </div>
 
 

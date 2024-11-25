@@ -28,12 +28,6 @@ public class InvoiceService {
             total += product.getQuantity() * product.getPrice();
         }
 
-        Invoice invoice = new Invoice();
-        invoice.setCart(cart);
-        invoice.setTotal(total);
-        invoice.setDate(new java.sql.Timestamp(System.currentTimeMillis()));
-        invoiceRepository.save(invoice);
-
         return total;
 
     }

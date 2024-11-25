@@ -15,8 +15,8 @@ public class Invoice {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "idCart", nullable = false)
-    private Cart cart;
+    @JoinColumn(name = "idCustomer", nullable = false)
+    private Customer customer;
 
     private Double total;
     private Timestamp date;
@@ -29,12 +29,12 @@ public class Invoice {
         this.id = id;
     }
 
-    public Cart getCart() {
-        return cart;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Double getTotal() {

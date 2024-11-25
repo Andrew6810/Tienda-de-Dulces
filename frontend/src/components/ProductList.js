@@ -38,6 +38,7 @@ function EmojiButtons() {
 function ProductList() {
   const [products, setProducts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [recommendedProduct, setRecommendedProduct] = useState([]);
   const productsToShow = 6;
 
   const assignImage = (product) => ({
@@ -52,6 +53,9 @@ function ProductList() {
         const products = response.map(assignImage);
         setProducts(products);
         sessionStorage.setItem("products", JSON.stringify(products));
+        const productsToRecommend = 10;
+        const recommendedProduct = products.slice(0, productsToRecommend);
+        setRecommendedProduct(recommendedProduct);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -62,13 +66,13 @@ function ProductList() {
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? products.length - productsToShow : prevIndex - productsToShow
+      prevIndex === 0 ? recommendedProduct.length - productsToShow : prevIndex - productsToShow
     );
   };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex >= products.length - productsToShow ? 0 : prevIndex + productsToShow
+      prevIndex >= recommendedProduct.length - productsToShow ? 0 : prevIndex + productsToShow
     );
   };
 
@@ -99,12 +103,12 @@ function ProductList() {
     <div className="product-list">
       <h3>Dulces</h3>
       <div className="product-cards">
-        {products.slice(currentIndex, currentIndex + productsToShow).map((product, index) => (
+        {recommendedProduct.slice(currentIndex, currentIndex + productsToShow).map((recommendedProduct, index) => (
           <div className="product-card" key={index}>
-            <img src={product.imgSrc} alt={product.name} />
-            <p>{product.name}</p>
-            <p className="product-price">Precio: ${product.price}</p>
-            <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
+            <img src={recommendedProduct.imgSrc} alt={recommendedProduct.name} />
+            <p>{recommendedProduct.name}</p>
+            <p className="product-price">Precio: ${recommendedProduct.price}</p>
+            <button className="add-to-cart" onClick={() => handleAddToCart(recommendedProduct)}>
               Añadir al carrito
             </button>
           </div>

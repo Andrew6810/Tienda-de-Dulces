@@ -1,42 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/components/CartPage.css";
+import { useCart } from "../pages/CartContext"; // Importa el contexto del carrito
 
 function CartPage() {
-  const initialCartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
+  const { cartItems, increaseQuantity, decreaseQuantity, removeItem } = useCart();
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState(initialCartItems);
-
-  useEffect(() => {
-    sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
-  }, [cartItems]);
-
-  const increaseQuantity = (id) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id && item.purchaseQuantity < item.stock
-          ? { ...item, purchaseQuantity: item.purchaseQuantity + 1 }
-          : item
-      )
-    );
-  };
-
-  const decreaseQuantity = (id) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id && item.purchaseQuantity > 1
-          ? { ...item, purchaseQuantity: item.purchaseQuantity - 1 }
-          : item
-      )
-    );
-  };
-
-  const removeItem = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
-  };
 
   const total = cartItems
-    .reduce((acc, item) => acc + item.price * item.purchaseQuantity, 0)
+    .reduce((acc, item) => acc + (item.price || 0) * (item.purchaseQuantity || 1), 0)
     .toLocaleString("es-CO");
 
   const gotoForm = () => {
@@ -61,26 +33,22 @@ function CartPage() {
             <div className="product-info">
               <img src={item.imgSrc} alt={item.name} className="item-image" />
               <div>
-                <p className="category">{item.category}</p>
                 <p className="item-name">{item.name}</p>
                 <p className="item-price">${item.price.toLocaleString("es-CO")}</p>
-                <p className="item-stock">Stock disponible: {item.stock - item.purchaseQuantity}</p>
               </div>
             </div>
+            
 
             <div className="quantity-controls">
               <button onClick={() => decreaseQuantity(item.id)}>-</button>
               <span>{item.purchaseQuantity}</span>
-              <button
-                onClick={() => increaseQuantity(item.id)}
-                disabled={item.purchaseQuantity >= item.stock}
-              >
-                +
-              </button>
+              <button onClick={() => increaseQuantity(item.id)}>+</button>
               <button onClick={() => removeItem(item.id)} className="remove-button">🗑️</button>
             </div>
 
-            <p className="total-price">${(item.price * item.purchaseQuantity).toLocaleString("es-CO")}</p>
+            <p className="total-price">
+              ${(item.price * item.purchaseQuantity).toLocaleString("es-CO")}
+            </p>
           </div>
         ))}
       </div>

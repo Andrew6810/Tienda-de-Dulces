@@ -1,15 +1,17 @@
-import Carousel from "./Carousel";
-import ProductList from "./ProductList";
+import React from 'react';
+import Carousel from './Carousel';
+import ProductList from './ProductList';
 
 const Home = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Carousel />
-        <ProductList />
-      </header>
+    <div className="home">
+      {/* Componente del carrusel */}
+      <Carousel />
+
+      {/* Componente de la lista de productos */}
+      <ProductList />
     </div>
   );
-}
+};
 
 export default Home;

@@ -1,5 +1,4 @@
 const API_URL = 'http://localhost:8080/api';
-export const API = 'https://api.example.com';
 
 // Obtener todos los productos
 export const getProducts = async (filter = 'all') => {

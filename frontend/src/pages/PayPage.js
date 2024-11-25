@@ -50,11 +50,13 @@ const PayPage = () => {
       API.updateProduct(item).then(() => {
           console.log('Stock actualizado');
       });
+      
+      createInvoiceAndCustomer(customer, totalPrice);
   });
 
     async function createInvoiceAndCustomer(customer, totalPrice) {
       const responseCustomer = await API.saveCustomerInfo(customer);
-
+      console.log(responseCustomer);
       const invoice = {
         customer: responseCustomer,
         total: totalPrice,
@@ -65,7 +67,7 @@ const PayPage = () => {
 
       return responseInvoice;
     };
-    createInvoiceAndCustomer(customer, totalPrice);
+    
 
     // Limpiar el carrito
     sessionStorage.setItem("cartItems", JSON.stringify([]));

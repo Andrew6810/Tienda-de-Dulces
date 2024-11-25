@@ -4,6 +4,8 @@ import Modal from "./Ofertas"; // Importa el componente Modal
 import PagNosotros from "./PagNosotros"; // Componente "Nosotros"
 import "../styles/Search.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import API from "../services/api";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,6 +14,8 @@ function Header() {
   const [isNosotrosOpen, setIsNosotrosOpen] = useState(false); // Estado para el modal "Nosotros"
   const searchBoxRef = useRef(null);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 

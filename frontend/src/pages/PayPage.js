@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jsPDF } from 'jspdf';
-import '../styles/components/PayPage.css';
+import { jsPDF } from 'jspdf'; // Importa jsPDF
+import '../styles/components/PayPage.css'; 
+import API from '../services/api.js';
 
 const PayPage = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const updatedCartItems = JSON.parse(sessionStorage.getItem('updatedCartItems')) || [];
+  const customer = JSON.parse(sessionStorage.getItem('shippingInfo')) || [];
 
   // Formateador de moneda
   const formatCurrency = (value) =>
@@ -35,6 +38,35 @@ const PayPage = () => {
   }, []);
 
   const handleCheckout = () => {
+    // Enviar la información al backend
+    updatedCartItems.forEach((item) => {
+      item ={
+          id: item.id,
+          description: item.description,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+      }
+      API.updateProduct(item).then(() => {
+          console.log('Stock actualizado');
+      });
+  });
+
+    async function createInvoiceAndCustomer(customer, totalPrice) {
+      const responseCustomer = await API.saveCustomerInfo(customer);
+
+      const invoice = {
+        customer: responseCustomer,
+        total: totalPrice,
+        date: new Date().toISOString(),
+      };
+
+      const responseInvoice = await API.createInvoice(invoice);
+
+      return responseInvoice;
+    };
+    createInvoiceAndCustomer(customer, totalPrice);
+
     // Limpiar el carrito
     sessionStorage.setItem("cartItems", JSON.stringify([]));
     navigate("/");
@@ -142,15 +174,21 @@ const PayPage = () => {
       </div>
 
       <div className="checkout-summary">
-        <h3>Total del Pedido</h3>
-        <p>Total: {formatCurrency(totalPrice)}</p>
-        <p>Impuestos, descuentos y envío calculados en la pantalla de pago final.</p>
+        <h3>Total del Pedido:  {formatCurrency(totalPrice)}</h3>
+      </div>
+      <div className='cart-summary'>
+        <h2>Información del Cliente</h2>
+        <p><strong>Nombre:</strong> {customer.first_name} {customer.last_name}</p>
+        <p><strong>Dirección:</strong> {customer.address}</p>
       </div>
 
-      <button onClick={handleCheckout} className="checkout-button">
-        Finalizar Pedido
-      </button>
 
+      <button 
+        onClick={handleCheckout} 
+        className="checkout-button"
+      >
+        Confirmar Pedido
+      </button>
       <button onClick={downloadInvoice} className="download-button">
         Descargar Factura
       </button>

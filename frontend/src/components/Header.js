@@ -17,6 +17,54 @@ function Header() {
 
   const toggleSearch = () => {
     setIsSearchVisible(!isSearchVisible);
+    setSearchTerm('');
+    setFilteredProducts([]);
+  };
+
+  const handleSearchChange = async (event) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+
+    if (term) {
+      try {
+        const allProducts = await API.getProducts();
+        const filtered = allProducts.filter((product) =>
+          product.name.toLowerCase().includes(term.toLowerCase())
+        );
+        setFilteredProducts(filtered);
+      } catch (error) {
+        console.error("Error al buscar productos:", error);
+      }
+    } else {
+      setFilteredProducts([]);
+    }
+  };
+
+  const handleClickOutside = (event) => {
+    // Si el clic ocurrió fuera del cajón de búsqueda, ciérralo
+    if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
+      setIsSearchVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isSearchVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSearchVisible]);
+
+  const gotoCart = () => {
+    navigate("/cart");
+  };
+  
+  const gotoLogin = () => {
+    navigate("/login");
   };
   
   return (
@@ -51,7 +99,11 @@ function Header() {
       </nav>
 
       <div className="icons">
-        <button className="carrito-btn" onClick={() => navigate("/cart")}>
+        <button className="reporte-btn" onClick={gotoLogin}>
+          <i className="report-icon">👤</i>
+          <span>Reportes</span>
+        </button>
+        <button className="carrito-btn" onClick={gotoCart}>
           <i className="cart-icon">🛒</i>
           <span>Carrito</span>
         </button>
@@ -64,6 +116,25 @@ function Header() {
           <span>Buscar</span>
         </button>
       </div>
+      {isSearchVisible && (
+        <div className="search-box" ref={searchBoxRef}>
+          <input
+            type="text"
+            placeholder="¿Qué artículo deseas buscar?"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          {filteredProducts.length > 0 && (
+            <div className="search-results">
+              {filteredProducts.map((product) => (
+                <div key={product.id} className="search-result-item">
+                  {product.name}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Modal "Nosotros" */}
       <PagNosotros

@@ -70,6 +70,10 @@ function Header() {
   const gotoLogin = () => {
     navigate("/login");
   };
+
+  const gotoBuy = () => {
+    navigate("/buy");
+  };
   
   return (
     <header className="header">
@@ -92,6 +96,9 @@ function Header() {
         <ul>
           <li onClick={() => navigate("/")}>
             <a>Home</a>
+          </li>
+          <li onClick={gotoBuy}>
+            <a>Comprar</a>
           </li>
           <li onClick={() => setIsNosotrosOpen(true)}>
             <a>Nosotros</a>

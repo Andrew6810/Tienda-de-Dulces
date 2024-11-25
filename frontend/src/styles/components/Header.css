@@ -179,7 +179,7 @@
    Ajustes para pantallas grandes
 ======================== */
 @media (min-width: 769px) {
-  .contact-btn, .buscar-btn, .carrito-btn {
+  .contact-btn, .buscar-btn, .carrito-btn, .reporte-btn {
     margin-top: 0; /* Valor estático para pantallas grandes */
   }
 }
@@ -188,7 +188,7 @@
    Ajustes para pantallas pequeñas
 ======================== */
 @media (max-width: 768px) {
-  .contact-btn, .buscar-btn, .carrito-btn {
+  .contact-btn, .buscar-btn, .carrito-btn, .reporte-btn {
     margin-top: -50px; /* Valor ajustado para pantallas pequeñas */
   }
 
@@ -251,7 +251,7 @@
   }
 
   /* Ocultar texto de los botones de contacto y búsqueda en pantallas pequeñas */
-  .contact-btn, .buscar-btn, .carrito-btn {
+  .contact-btn, .buscar-btn, .carrito-btn, .reporte-btn {
     width: 50px; /* Ancho fijo para iconos */
     height: 50px; /* Alto fijo para iconos */
     padding: 0; /* Sin espaciado interno */
@@ -260,7 +260,7 @@
   }
 
   /* Ocultar texto de los botones de contacto y búsqueda en pantallas pequeñas */
-  .contact-btn span, .buscar-btn span, .carrito-btn span {
+  .contact-btn span, .buscar-btn span, .carrito-btn span, .reporte-btn span {
     display: none; /* Ocultar texto */
   }
 }

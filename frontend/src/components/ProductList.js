@@ -1,18 +1,19 @@
+// src/components/ProductList.js
 import React, { useState, useEffect } from 'react';
 import '../styles/components/ProductList.css';  // Estilos de la lista de productos
 import kit1 from '../components/img/kit1.png'; 
 import kit2 from '../components/img/kit2.png'; 
 import kit3 from '../components/img/kit3.png';
-import { useCart } from '../pages/CartContext';  // Cambia la ruta a 'pages/CartContext'
+import API from '../services/api';
 
 // Lista de kits
 const kits = [
-  { id: 1, name: "Kit 1", imgSrc: kit1, price: 25000 },
-  { id: 2, name: "Kit 2", imgSrc: kit2, price: 40000 },
-  { id: 3, name: "Kit 3", imgSrc: kit3, price: 35000 },
+  { name: "Kit 1", imgSrc: kit1, price: "25000" },
+  { name: "Kit 2", imgSrc: kit2, price: "40000" },
+  { name: "Kit 3", imgSrc: kit3, price: "35000" },
 ];
 
-
+// Componente EmojiButtons para mostrar los botones de emojis
 function EmojiButtons() {
   const emojiData = [
     { emoji: "🛒", label: "Carrito" },
@@ -33,17 +34,93 @@ function EmojiButtons() {
   );
 }
 
+// Componente para mostrar productos y kits
 function ProductList() {
-  const { addToCart } = useCart(); // Usamos el contexto para acceder a addToCart
+  const [products, setProducts] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const productsToShow = 6;
+
+  const assignImage = (product) => ({
+    ...product,
+    imgSrc: `/components/img/${product.name.replace(" ", "_").toLowerCase()}.png`,
+  });
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await API.getProducts();
+        const products = response.map(assignImage);
+        setProducts(products);
+        sessionStorage.setItem("products", JSON.stringify(products));
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+    
+    fetchProducts();
+  }, []);
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? products.length - productsToShow : prevIndex - productsToShow
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex >= products.length - productsToShow ? 0 : prevIndex + productsToShow
+    );
+  };
 
   const handleAddToCart = (item) => {
-    addToCart(item); // Envía el producto completo al carrito
     alert(`${item.name} ha sido agregado al carrito!`);
-  };
   
+    // Obtener el carrito actual desde sessionStorage o inicializarlo si está vacío
+    const cartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
+  
+    // Buscar si el producto ya está en el carrito
+    const existingItemIndex = cartItems.findIndex((cartItem) => cartItem.name === item.name);
+  
+    if (existingItemIndex >= 0) {
+      // Si el producto ya está en el carrito, incrementa su cantidad de compra
+      cartItems[existingItemIndex].purchaseQuantity += 1;
+    } else {
+      // Si el producto no está en el carrito, agrégalo con cantidad de compra inicial de 1 y stock especificado
+      cartItems.push({ ...item, stock: item.quantity, purchaseQuantity: 1 });
+    }
+  
+    // Guardar el carrito actualizado en sessionStorage
+    sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+  
+    console.log(`${item.name} ha sido agregado al carrito!`);
+  };
 
   return (
     <div className="product-list">
+      <h3>Dulces</h3>
+      <div className="product-cards">
+        {products.slice(currentIndex, currentIndex + productsToShow).map((product, index) => (
+          <div className="product-card" key={index}>
+            <img src={product.imgSrc} alt={product.name} />
+            <p>{product.name}</p>
+            <p className="product-price">Precio: ${product.price}</p>
+            <button className="add-to-cart" onClick={() => handleAddToCart(product)}>
+              Añadir al carrito
+            </button>
+          </div>
+        ))}
+      </div>
+      <div className="nav-buttons">
+        <button className="nav-button" onClick={handlePrev}>
+          &#10094;
+        </button>
+        <button className="nav-button" onClick={handleNext}>
+          &#10095;
+        </button>
+      </div>
+
+      <EmojiButtons />
+
       <h3>Kits</h3>
       <div className="product-cards">
         {kits.map((kit, index) => (
@@ -57,8 +134,6 @@ function ProductList() {
           </div>
         ))}
       </div>
-
-      <EmojiButtons />
     </div>
   );
 }

@@ -4,6 +4,8 @@ import "../styles/components/BuyPage.css";
 
 const BuyPage = () => {
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null); // Estado para el producto seleccionado
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,26 +26,31 @@ const BuyPage = () => {
     return acc;
   }, []);
 
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+
   const handleAddToCart = (item) => {
     alert(`${item.name} ha sido agregado al carrito!`);
-  
-    // Obtener el carrito actual desde sessionStorage o inicializarlo si está vacío
+
     const cartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
-  
-    // Buscar si el producto ya está en el carrito
-    const existingItemIndex = cartItems.findIndex((cartItem) => cartItem.name === item.name);
-  
+    const existingItemIndex = cartItems.findIndex(
+      (cartItem) => cartItem.name === item.name
+    );
+
     if (existingItemIndex >= 0) {
-      // Si el producto ya está en el carrito, incrementa su cantidad de compra
       cartItems[existingItemIndex].purchaseQuantity += 1;
     } else {
-      // Si el producto no está en el carrito, agrégalo con cantidad de compra inicial de 1 y stock especificado
       cartItems.push({ ...item, stock: item.quantity, purchaseQuantity: 1 });
     }
-  
-    // Guardar el carrito actualizado en sessionStorage
+
     sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
-  
     console.log(`${item.name} ha sido agregado al carrito!`);
   };
 
@@ -56,16 +63,38 @@ const BuyPage = () => {
             {products
               .filter((product) => product.category === category)
               .map((product) => (
-                <article key={product.id} className="product-card">
+                <article
+                  key={product.id}
+                  className="product-card"
+                  onClick={() => handleProductClick(product)} // Muestra el modal al hacer clic
+                >
                   <img src={product.imgSrc} alt={product.name} />
                   <h3>{product.name}</h3>
                   <p>${product.price}</p>
-                  <button onClick={() => handleAddToCart(product)}>Add to cart</button>
                 </article>
               ))}
           </div>
         </section>
       ))}
+
+      {/* Modal */}
+      {isModalOpen && selectedProduct && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="modal-close" onClick={closeModal}>
+              X
+            </button>
+            <img src={selectedProduct.imgSrc} alt={selectedProduct.name} />
+            <h2>{selectedProduct.name}</h2>
+            <p>{selectedProduct.description}</p>
+            <p>Precio: ${selectedProduct.price}</p>
+            <p>Stock disponible: {selectedProduct.quantity}</p>
+            <button onClick={() => handleAddToCart(selectedProduct)}>
+              Agregar al carrito
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -61,7 +61,6 @@ function CartPage() {
             <div className="product-info">
               <img src={item.imgSrc} alt={item.name} className="item-image" />
               <div>
-                <p className="category">{item.category}</p>
                 <p className="item-name">{item.name}</p>
                 <p className="item-price">${item.price.toLocaleString("es-CO")}</p>
                 <p className="item-stock">Stock disponible: {item.stock - item.purchaseQuantity}</p>

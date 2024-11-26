@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import "../styles/components/ReportPage.css"; // Añade tus estilos
 import Invoices from "../components/Invoices";
 import ProductManager from '../components/ProductManager';

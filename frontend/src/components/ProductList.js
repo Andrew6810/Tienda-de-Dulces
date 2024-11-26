@@ -101,7 +101,7 @@ function ProductList() {
 
   return (
     <div className="product-list">
-      <h3>Dulces</h3>
+      <h3>Dulces Recomendados</h3>
       <div className="product-cards">
         {recommendedProduct.slice(currentIndex, currentIndex + productsToShow).map((recommendedProduct, index) => (
           <div className="product-card" key={index}>

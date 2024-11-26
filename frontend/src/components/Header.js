@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import "../styles/components/Header.css";
-import Modal from "./Ofertas"; // Importa el componente Modal
+import ModalGenerico from "./ModalGenerico"; // Importa el componente genérico
 import PagNosotros from "./PagNosotros"; // Componente "Nosotros"
 import "../styles/Search.css";
 import { useNavigate } from "react-router-dom";
@@ -12,16 +12,17 @@ function Header() {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [isMaintenanceOpen, setIsMaintenanceOpen] = useState(false); // Estado para el modal de mantenimiento
   const [isNosotrosOpen, setIsNosotrosOpen] = useState(false); // Estado para el modal "Nosotros"
+  const [isContactoOpen, setIsContactoOpen] = useState(false); // Estado para el modal "Contacto"
   const searchBoxRef = useRef(null);
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const toggleSearch = () => {
     setIsSearchVisible(!isSearchVisible);
-    setSearchTerm('');
+    setSearchTerm("");
     setFilteredProducts([]);
   };
 
@@ -45,7 +46,6 @@ function Header() {
   };
 
   const handleClickOutside = (event) => {
-    // Si el clic ocurrió fuera del cajón de búsqueda, ciérralo
     if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
       setIsSearchVisible(false);
     }
@@ -66,7 +66,7 @@ function Header() {
   const gotoCart = () => {
     navigate("/cart");
   };
-  
+
   const gotoLogin = () => {
     navigate("/login");
   };
@@ -74,7 +74,7 @@ function Header() {
   const gotoBuy = () => {
     navigate("/buy");
   };
-  
+
   return (
     <header className="header">
       <div className="logo">
@@ -103,7 +103,7 @@ function Header() {
           <li onClick={() => setIsNosotrosOpen(true)}>
             <a>Nosotros</a>
           </li>
-          <li onClick={() => setIsMaintenanceOpen(true)}> {/* Mostrar modal de mantenimiento */}
+          <li onClick={() => setIsMaintenanceOpen(true)}>
             <a>Ofertas</a>
           </li>
         </ul>
@@ -118,7 +118,7 @@ function Header() {
           <i className="cart-icon">🛒</i>
           <span>Carrito</span>
         </button>
-        <button className="contact-btn">
+        <button className="contact-btn" onClick={() => setIsContactoOpen(true)}>
           <i className="phone-icon">📞</i>
           <span>Contacto</span>
         </button>
@@ -127,6 +127,7 @@ function Header() {
           <span>Buscar</span>
         </button>
       </div>
+
       {isSearchVisible && (
         <div className="search-box" ref={searchBoxRef}>
           <input
@@ -138,7 +139,11 @@ function Header() {
           {filteredProducts.length > 0 && (
             <div className="search-results">
               {filteredProducts.map((product) => (
-                <div key={product.id} className="search-result-item">
+                <div
+                  key={product.id}
+                  className="search-result-item"
+                  onClick={() => navigate("/buy")}
+                >
                   {product.name}
                 </div>
               ))}
@@ -153,14 +158,28 @@ function Header() {
         onClose={() => setIsNosotrosOpen(false)}
       />
 
-      {/* Modal "Mantenimiento" */}
-      <Modal
+      {/* Modal "Ofertas" */}
+      <ModalGenerico
         isOpen={isMaintenanceOpen}
         onClose={() => setIsMaintenanceOpen(false)}
         title="OFERTAS"
       >
-        <p>Estamos trabajando para mejorar nuestra sección de ofertas. ¡Vuelve pronto!</p>
-      </Modal>
+        <p>
+          Estamos trabajando para mejorar nuestra sección de ofertas. ¡Vuelve
+          pronto!
+        </p>
+      </ModalGenerico>
+
+      {/* Modal "Contacto" */}
+      <ModalGenerico
+        isOpen={isContactoOpen}
+        onClose={() => setIsContactoOpen(false)}
+        title="CONTACTO"
+      >
+        <p>📧 Correo: contacto@candyshop.com</p>
+        <p>📞 Teléfono: +1 (555) 123-4567</p>
+        <p>🏢 Dirección: Universidad Industrial de Santander, Colombia</p>
+      </ModalGenerico>
     </header>
   );
 }

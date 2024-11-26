@@ -12,7 +12,7 @@ const PagNosotros = ({ isOpen, onClose }) => {
         </span>
         <h2>SOBRE NOSOTROS</h2>
         <p className="intro-text">
-  Somos Sebastián, Karen, Andrey y Diego, apasionados por endulzar la vida de las personas.
+  Somos Sebastián, Karen, Andrey, Diego y Anderson apasionados por endulzar la vida de las personas.
 </p>
         <h3>Nuestros Fundadores:</h3>
         <ul>
@@ -20,6 +20,7 @@ const PagNosotros = ({ isOpen, onClose }) => {
           <li><strong>Karen:</strong> Diseño y creación de productos.</li>
           <li><strong>Andrey:</strong> Atención al cliente y marketing.</li>
           <li><strong>Diego:</strong> Finanzas y estrategia.</li>
+          <li><strong>Anderson:</strong> Administrador.</li>
         </ul>
         <h3>Nuestra Experiencia:</h3>
         <p className="intro-text">

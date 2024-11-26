@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { jsPDF } from 'jspdf'; // Importa jsPDF
-import '../styles/components/PayPage.css'; 
-import API from '../services/api.js';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { jsPDF } from "jspdf"; // Importa jsPDF
+import "../styles/components/PayPage.css";
+import API from "../services/api.js";
 
 const PayPage = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const updatedCartItems = JSON.parse(sessionStorage.getItem('updatedCartItems')) || [];
-  const customer = JSON.parse(sessionStorage.getItem('shippingInfo')) || [];
+  const updatedCartItems =
+    JSON.parse(sessionStorage.getItem("updatedCartItems")) || [];
+  const customer = JSON.parse(sessionStorage.getItem("shippingInfo")) || [];
 
   // Formateador de moneda
   const formatCurrency = (value) =>
@@ -21,7 +22,8 @@ const PayPage = () => {
   // Cargar el carrito desde sessionStorage al cargar la página
   useEffect(() => {
     try {
-      const storedCartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
+      const storedCartItems =
+        JSON.parse(sessionStorage.getItem("cartItems")) || [];
       setCartItems(storedCartItems);
 
       // Calcular el total
@@ -40,20 +42,19 @@ const PayPage = () => {
   const handleCheckout = () => {
     // Enviar la información al backend
     updatedCartItems.forEach((item) => {
-      item ={
-          id: item.id,
-          description: item.description,
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price,
-      }
+      item = {
+        id: item.id,
+        description: item.description,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+      };
       API.updateProduct(item).then(() => {
-          console.log('Stock actualizado');
+        console.log("Stock actualizado");
       });
-      
-      createInvoiceAndCustomer(customer, totalPrice);
-  });
-
+    });
+    createInvoiceAndCustomer(customer, totalPrice);
+    
     async function createInvoiceAndCustomer(customer, totalPrice) {
       const responseCustomer = await API.saveCustomerInfo(customer);
       console.log(responseCustomer);
@@ -66,8 +67,7 @@ const PayPage = () => {
       const responseInvoice = await API.createInvoice(invoice);
 
       return responseInvoice;
-    };
-    
+    }
 
     // Limpiar el carrito
     sessionStorage.setItem("cartItems", JSON.stringify([]));
@@ -139,12 +139,16 @@ const PayPage = () => {
     currentY += 20;
     doc.setFontSize(12);
     doc.setFont("helvetica", "italic");
-    doc.text("Gracias por tu compra en Candy Shop!", 105, currentY, { align: "center" });
+    doc.text("Gracias por tu compra en Candy Shop!", 105, currentY, {
+      align: "center",
+    });
 
     // Pie de página
     doc.setFontSize(8);
     doc.setFont("helvetica", "normal");
-    doc.text("Candy Shop © 2024 - Todos los derechos reservados", 105, 290, { align: "center" });
+    doc.text("Candy Shop © 2024 - Todos los derechos reservados", 105, 290, {
+      align: "center",
+    });
 
     // Descargar PDF
     doc.save("factura_candy_shop.pdf");
@@ -162,7 +166,9 @@ const PayPage = () => {
                 <div>
                   <p className="item-name">{item.name}</p>
                   <p className="item-price">{formatCurrency(item.price)}</p>
-                  <p className="item-quantity">Cantidad: {item.purchaseQuantity}</p>
+                  <p className="item-quantity">
+                    Cantidad: {item.purchaseQuantity}
+                  </p>
                 </div>
               </div>
               <p className="item-total">
@@ -176,19 +182,19 @@ const PayPage = () => {
       </div>
 
       <div className="checkout-summary">
-        <h3>Total del Pedido:  {formatCurrency(totalPrice)}</h3>
+        <h3>Total del Pedido: {formatCurrency(totalPrice)}</h3>
       </div>
-      <div className='cart-summary'>
+      <div className="cart-summary">
         <h2>Información del Cliente</h2>
-        <p><strong>Nombre:</strong> {customer.first_name} {customer.last_name}</p>
-        <p><strong>Dirección:</strong> {customer.address}</p>
+        <p>
+          <strong>Nombre:</strong> {customer.first_name} {customer.last_name}
+        </p>
+        <p>
+          <strong>Dirección:</strong> {customer.address}
+        </p>
       </div>
 
-
-      <button 
-        onClick={handleCheckout} 
-        className="checkout-button"
-      >
+      <button onClick={handleCheckout} className="checkout-button">
         Confirmar Pedido
       </button>
       <button onClick={downloadInvoice} className="download-button">

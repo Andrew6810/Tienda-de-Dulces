@@ -24,6 +24,29 @@ const BuyPage = () => {
     return acc;
   }, []);
 
+  const handleAddToCart = (item) => {
+    alert(`${item.name} ha sido agregado al carrito!`);
+  
+    // Obtener el carrito actual desde sessionStorage o inicializarlo si está vacío
+    const cartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
+  
+    // Buscar si el producto ya está en el carrito
+    const existingItemIndex = cartItems.findIndex((cartItem) => cartItem.name === item.name);
+  
+    if (existingItemIndex >= 0) {
+      // Si el producto ya está en el carrito, incrementa su cantidad de compra
+      cartItems[existingItemIndex].purchaseQuantity += 1;
+    } else {
+      // Si el producto no está en el carrito, agrégalo con cantidad de compra inicial de 1 y stock especificado
+      cartItems.push({ ...item, stock: item.quantity, purchaseQuantity: 1 });
+    }
+  
+    // Guardar el carrito actualizado en sessionStorage
+    sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+  
+    console.log(`${item.name} ha sido agregado al carrito!`);
+  };
+
   return (
     <div className="category-page">
       {categories.map((category) => (
@@ -37,7 +60,7 @@ const BuyPage = () => {
                   <img src={product.imgSrc} alt={product.name} />
                   <h3>{product.name}</h3>
                   <p>${product.price}</p>
-                  <button>Add to cart</button>
+                  <button onClick={() => handleAddToCart(product)}>Add to cart</button>
                 </article>
               ))}
           </div>

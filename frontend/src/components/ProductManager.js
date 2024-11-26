@@ -8,6 +8,8 @@ function ProductManager() {
     name: "",
     price: "",
     quantity: "",
+    category: "",
+    description: "",
   });
   const [editingProduct, setEditingProduct] = useState(null); // Producto en edición
   const [showModal, setShowModal] = useState(false); // Mostrar/ocultar modal
@@ -211,6 +213,8 @@ function ProductManager() {
                       })
                     }
                   >
+                    <option value="">--Seleccione categoría--</option>{" "}
+                    {/* Agregado para asegurar que haya un valor por defecto */}
                     <option value="gomas">Gomas</option>
                     <option value="chocolates">Chocolates</option>
                     <option value="galletas">Galletas</option>
